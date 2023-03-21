@@ -1,0 +1,71 @@
+- name: install k8s
+  hosts: k8st3
+  tasks:
+    
+      - name: change hostnames
+        become: true
+        shell: hostnamectl set-hostname master 
+
+
+      - name: Install helper packages for Kubernetes
+        become: true
+        shell: |
+              sudo apt install curl apt-transport-https -y
+              curl -fsSL  https://packages.cloud.google.com/apt/doc/apt-key.gpg%7Csudo gpg --dearmor -o /etc/apt/trusted.gpg.d/k8s.gpg
+              curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+              echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+               
+      - name: Update app repository and install Kubernetes packages and Docker.
+        become: true
+        shell: |
+               apt-get update
+               apt-get install -y kubectl kubeadm kubelet kubernetes-cni docker.io
+
+      - name: Start and enable Docker service.
+        become: true  
+        shell: |
+               systemctl start docker
+               systemctl enable docker
+
+      - name: Start and enable Docker service.
+        become: true
+        shell: |
+               cat << EOF | tee /etc/sysctl.d/k8s.conf
+               net.bridge.bridge-nf-call-ip6tables = 1
+               net.bridge.bridge-nf-call-iptables = 1
+               EOF
+               sysctl --system
+
+      - name: Pull the packages for Kubernetes beforehand
+        become: true
+        shell: |
+               kubeadm config images pull
+
+      - name: restart deamon, docker and kubelet
+        become: true
+        shell: |
+               echo '{"exec-opts": ["native.cgroupdriver=systemd"]}' | tee /etc/docker/daemon.json
+               systemctl daemon-reload
+               systemctl restart docker
+               systemctl restart kubelet
+
+      - name: kubeadm initialization
+        become: true
+        command: kubeadm init --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=All   
+
+      - name: Setup kubeconfig for ubuntu user
+        become: true
+        command: "{{ item }}"
+        with_items:
+          - mkdir -p /home/ubuntu/.kube
+          - cp -i /etc/kubernetes/admin.conf /home/ubuntu/.kube/config
+          - chown ubuntu:ubuntu /home/ubuntu/.kube/config
+
+      - name: Install flannel network plugin     
+        command: kubectl apply -f https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml
+
+      - name: remove taint
+        command: kubectl taint nodes master node-role.kubernetes.io/control-plane:NoSchedule-
+
+      
+

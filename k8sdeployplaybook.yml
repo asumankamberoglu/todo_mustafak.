@@ -1,0 +1,13 @@
+- name: Apply Kubernetes manifest file
+  hosts: k8s
+  
+  tasks:
+    - name: Change to directory containing Kubernetes manifest file
+      become: true
+      become_user: ubuntu
+      shell: cd todo/k8s/
+    
+    - name: Apply Kubernetes manifest file
+      become: true
+      become_user: ubuntu
+      shell: kubectl apply -f todo/k8s/
