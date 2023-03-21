@@ -30,16 +30,12 @@ pipeline {
                         }
                     }
 
-            stage('Deploy App on Kubernetes cluster'){
-                        ansiblePlaybook(
-                            inventory: "",
-                            installation: "ansible",
-                            limit: "",
-                            playbook: "/todo/k8sdeployplaybook.yml",
-                            extras: ""
-                        )
-                            
+           stage('Deploy App on Kubernetes cluster'){
+                        steps {
+                            echo 'Deploying App on Kubernetes'
+                            ansiblePlaybook credentialsId: 'firstkey.pem', disableHostKeyChecking: true, installation: 'Ansible', inventory: 'inventory.txt', playbook: 'k8sdeployplaybook.yml'
             }
+        }     
         }     
             
     }
