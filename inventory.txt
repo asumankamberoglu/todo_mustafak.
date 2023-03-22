@@ -1,12 +1,12 @@
 [all]
-node2 ansible_host=172.31.54.25 ansible_user=ubuntu
+node2 ansible_host=172.31.30.122 ansible_user=ubuntu
 node3 ansible_host=172.31.87.255 ansible_user=ubuntu
 
 
 
 
 [jenkinsubuntu]
-node2 ansible_host=172.31.54.25 ansible_user=ubuntu
+node2 ansible_host=172.31.30.122 ansible_user=ubuntu
 
 
 [k8s]

@@ -33,7 +33,7 @@ pipeline {
            stage('Deploy App on Kubernetes cluster'){
                         steps {
                             echo 'Deploying App on Kubernetes'
-                            ansiblePlaybook credentialsId: 'firstkey.pem', disableHostKeyChecking: true, installation: 'ansible', inventory: 'inventory.txt', playbook: 'k8sdeployplaybook.yml'
+                            ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible', inventory: 'inventory.txt', playbook: 'k8sdeployplaybook.yml'
             }
         }     
         }     
