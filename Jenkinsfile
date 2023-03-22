@@ -30,7 +30,7 @@ pipeline {
            stage('GitSCM Checkout'){
                         steps {
                             echo 'find playbook'
-                            git 'https://github.com/karacaaslan/todo'
+                            git branch: 'main', url: 'https://github.com/karacaaslan/todo'
             }
         } 
            stage('Deploy App on Kubernetes cluster'){
