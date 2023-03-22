@@ -16,4 +16,4 @@ node3 ansible_host=172.31.87.255 ansible_user=ubuntu
 
 
 [all:vars]
-ansible_ssh_private_key_file=/home/ubuntu/firstkey.pem
+ansible_ssh_private_key_file=/var/lib/jenkins/.ssh/firstkey.pem
