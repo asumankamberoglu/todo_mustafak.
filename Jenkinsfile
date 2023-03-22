@@ -30,13 +30,13 @@ pipeline {
            stage('GitSCM Checkout'){
                         steps {
                             echo 'find playbook'
-                            git branch: 'main', url: 'https://github.com/karacaaslan/todo'
+                            git 'https://github.com/karacaaslan/todo'
             }
         } 
            stage('Deploy App on Kubernetes cluster'){
                         steps {
                             echo 'Deploying App on Kubernetes'
-                            ansiblePlaybook credentialsId: 'musti', disableHostKeyChecking: true, installation: 'ansible', inventory: 'k8sdeployplaybook.yml', playbook: 'k8sdeployplaybook.yml'
+                            ansiblePlaybook credentialsId: 'musti', disableHostKeyChecking: true, installation: 'ansible', inventory: 'inventory.txt', playbook: 'k8sdeployplaybook.yml'
             }
         }     
         }     
