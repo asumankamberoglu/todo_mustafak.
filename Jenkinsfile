@@ -3,9 +3,7 @@ pipeline {
 
     environment {
     DOCKER_PASSWORD = credentials('DOCKER_PASSWORD')
-    PATH=sh(script:"echo $PATH:/usr/local/bin", returnStdout:true).trim()
-    ANS_KEYPAIR="firstkey.pem"
-    AWS_REGION="us-east-1"
+
 
     }
     stages {
