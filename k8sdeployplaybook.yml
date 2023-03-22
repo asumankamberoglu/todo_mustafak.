@@ -1,5 +1,8 @@
 - name: Apply Kubernetes manifest file
   hosts: k8s
+  gather_facts: No
+  any_errors_fatal: true
+  
   
   tasks:
     - name: Change to directory containing Kubernetes manifest file
