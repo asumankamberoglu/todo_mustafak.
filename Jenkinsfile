@@ -27,12 +27,12 @@ pipeline {
                             sh 'docker push karacaaslan/todoapp'
                         }
                     }
-           stage('GitSCM Checkout'){
-                        steps {
-                            echo 'find playbook'
-                            git branch: 'main', url: 'https://github.com/karacaaslan/todo'
-            }
-        } 
+        //    stage('GitSCM Checkout'){
+        //                 steps {
+        //                     echo 'find playbook'
+        //                     git branch: 'main', url: 'https://github.com/karacaaslan/todo'
+        //     }
+        // } 
            stage('Deploy App on Kubernetes cluster'){
                         steps {
                             echo 'Deploying App on Kubernetes'
