@@ -1,5 +1,5 @@
 - name: install k8s
-  hosts: k8st3
+  hosts: k8s
   tasks:
     
       - name: change hostnames

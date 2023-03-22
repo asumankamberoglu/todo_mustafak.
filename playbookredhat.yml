@@ -1,4 +1,4 @@
-- name: install docker
+- name: install docker on redhat
   gather_facts: No
   any_errors_fatal: true
   hosts: jenkins
@@ -58,7 +58,7 @@
         enabled: yes
         state: started
 
-- name : install jenkins
+- name : install jenkins on redhat
   hosts: jenkins
   become: true
   tasks:
@@ -101,3 +101,7 @@
     #     name: jenkins
     #     state: started
     #     enabled: true
+
+
+
+
