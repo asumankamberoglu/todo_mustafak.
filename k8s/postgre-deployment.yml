@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: postgres-deploy
+  labels:
+    name: postgres-db
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels: 
+      name: postgres-db
+  template: 
+    metadata:
+      labels:
+        name: postgres-db
+    spec: 
+      containers: 
+      - name: postgres
+        image: postgres:latest
+        ports: 
+        - containerPort: 5432
+        env:
+          - name: POSTGRES_PASSWORD
+            value: "admin"  
+          - name: POSTGRES_USER
+            value: "postgres"
+          - name: POSTGRES_DB
+            value: todo_db
+# ./todoserver/src/main/resources/init.sql:/docker-entrypoint-initdb.d/init.sql
+#         volumeMounts:
+#         - mountPath: /docker-entrypoint-initdb.d
+#           name: demo-config-volume
+
+#       volumes:
+#       - name: demo-config-volume
+#         configMap:
+#           name: demo-config
+#           items:
+#           - key: config
+#             path: init.sql      
+           

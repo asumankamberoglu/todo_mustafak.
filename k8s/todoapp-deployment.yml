@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todoapp-deploy
+  labels:
+    app: todoapp-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: todoapp-pod
+  template:
+    metadata:
+      name: todoapp-pod
+      labels:
+        name: todoapp-pod
+    spec:
+      containers:
+        - name: todoapp
+          image: karacaaslan/todoapp
+          ports:
+          - containerPort: 8080
+      initContainers:
+        - name: init-todoserver-service
+          image: busybox
+          command: ['sh', '-c', 'until nc -z todoserver-service:8000; do echo waiting for todoserver-service; sleep 2; done;']     

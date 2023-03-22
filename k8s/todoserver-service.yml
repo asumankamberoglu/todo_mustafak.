@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: todoserver-service
+  labels:
+    name: todoserver-service
+spec:
+  #type: LoadBalancer # --> not working for now...
+  type: NodePort
+  ports:
+    - port: 8000  
+      targetPort: 8000
+      nodePort: 30002
+  selector:
+    name: todoserver-pod

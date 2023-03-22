@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todoserver-deploy
+  labels:
+    app: todoserver-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: todoserver-pod
+  template:
+    metadata:
+      name: todoserver-pod
+      labels:
+        name: todoserver-pod
+    spec:
+      containers:
+        - name: todoserver
+          image: karacaaslan/todoserver
+          ports:
+          - containerPort: 8000
+          env:
+            # - name: POSTGRESQL_HOST
+            #   value: postgres-service          
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres-service:5432/todo_db
+            # - name: POSTGRES_PASSWORD
+            #   value: "admin"  
+            # - name: POSTGRES_USER
+            #   value: "postgres"
+            # - name: POSTGRES_DB
+            #   value: todo_db
+      initContainers:
+        - name: init-postgres-service
+          image: busybox
+          command: ['sh', '-c', 'until nc -z postgres-service:5432; do echo waiting for postgres-service; sleep 2; done;']                    

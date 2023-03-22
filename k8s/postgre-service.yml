@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  labels:
+    name: postgres-service
+spec:
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
+  selector:
+    name: postgres-db  
+
+
+
+# apiVersion: v1
+# # Kind for service
+# kind: Service
+# metadata:
+#   # Name your service
+#   name: postgres-service
+#   labels:
+#     app: postgres-db
+# spec:
+#   # Choose how to expose your service
+#   type: NodePort
+#   ports:
+#     - protocol: TCP
+#       port: 5432
+#       targetPort: 5432
+#     # The port number to expose the service
+#   # Pod to route service traffic  
+#   selector:
+#     app: postgres-db
+
+
+  

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: todoapp-service
+  labels:
+    name: todoapp-service
+spec:
+  #type: LoadBalancer # --> not working for now...
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30001
+  selector:
+    name: todoapp-pod
